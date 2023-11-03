@@ -1,0 +1,29 @@
+student :
+  id
+  name
+  surname
+  group_id
+
+subject :
+  id
+  name
+  teacher_id
+
+group :
+  id
+  name
+  student_id
+  subject_set
+
+user :
+  id
+  username
+  email
+  password
+
+teacher ex user :
+  set_subject
+  set_group
+
+admin ex user :
+  list
