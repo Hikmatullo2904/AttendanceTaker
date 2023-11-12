@@ -1,30 +1,54 @@
-package com.partner.attendance.entity;
+    package com.partner.attendance.entity;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+    import jakarta.persistence.*;
+    import jakarta.validation.constraints.Email;
+    import jakarta.validation.constraints.Size;
+    import lombok.Getter;
+    import lombok.NoArgsConstructor;
+    import lombok.Setter;
 
-@Setter
-@Getter
-@NoArgsConstructor
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "user_type")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    import java.util.HashSet;
+    import java.util.Set;
 
-    private String username;
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @Entity
+    @Table(name = "users")
+    public class User {
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
 
-    private String email;
+        private String name;
+        @Email
+        @Column(nullable = false, unique = true)
+        private String email;
+        @Size(min = 8, max = 30)
+        private String password;
 
-    private String password;
+        @ManyToMany
+        @JoinTable(
+                name = "teacher_subject",
+                joinColumns = @JoinColumn(name = "teacher_id"),
+                inverseJoinColumns = @JoinColumn(name = "subject_id")
+        )
+        private Set<Subject> subjects = new HashSet<>();
 
-    public User(String username, String email, String password) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
+        @ManyToMany
+        @JoinTable(
+                name = "group_teachers",
+                joinColumns = @JoinColumn(name = "user_id"),
+                inverseJoinColumns = @JoinColumn(name = "group_id")
+        )
+        private Set<Group> groups;
+
+        @Enumerated(value = EnumType.STRING)
+        private Set<Role> roles = new HashSet<>();
+
+        public User(String name, String email, String password) {
+            this.name = name;
+            this.email = email;
+            this.password = password;
+        }
     }
-}

@@ -1,8 +1,14 @@
 package com.partner.attendance.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class Attendance {
     @Id
@@ -16,12 +22,9 @@ public class Attendance {
     @JoinColumn(name = "subject_id")
     private Subject subject;
 
-    @ManyToOne
-    @JoinColumn(name = "teacher_id")
-    private Teacher teacher;
-
-    @Column(name = "is_present", nullable = false)
-    private boolean isPresent;
+    private String status;
     @Column(name = "local_date", nullable = false)
     private LocalDate localDate;
+
+
 }

@@ -1,12 +1,11 @@
 package com.partner.attendance.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Setter
 @Getter
@@ -15,10 +14,17 @@ import lombok.Setter;
 public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String name;
+
+    @ManyToMany(mappedBy = "subjects")
+    private Set<User> user;
+
+
 
     public Subject(String name) {
         this.name = name;
     }
+
+
 }
